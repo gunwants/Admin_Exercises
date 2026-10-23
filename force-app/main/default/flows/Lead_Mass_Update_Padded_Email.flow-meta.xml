@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>68.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <ends>
+        <name>END_ELEMENT_1</name>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+    </ends>
+    <environments>Default</environments>
+    <formulas>
+        <description>IF(
+    LEN({!$Record.Email}) &lt; 20,
+    {!$Record.Email} &amp; RPAD(&quot;&quot;, 20 - LEN({!$Record.Email}), &quot;z&quot;),
+    {!$Record.Email}
+)</description>
+        <name>fx_PaddedEmail</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    LEN({!$Record.Email}) &lt; 20,
+    {!$Record.Email} &amp; RPAD(&quot;&quot;, 20 - LEN({!$Record.Email}), &quot;z&quot;),
+    {!$Record.Email}
+)</expression>
+    </formulas>
+    <interviewLabel>Lead - Mass Update Padded Email {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Lead - Mass Update Padded Email</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Fill_Copied_email</name>
+        <label>Fill Copied email</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>END_ELEMENT_1</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Copied_Email__c</field>
+            <value>
+                <elementReference>fx_PaddedEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Fill_Copied_email</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Email</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Lead</object>
+        <schedule>
+            <frequency>Once</frequency>
+            <startDate>2026-10-23</startDate>
+            <startTime>15:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>
