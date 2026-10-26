@@ -5,9 +5,6 @@
 # Salesforce cache
 .sf/
 .sfdx/
-
-# Manifest folder
-manifest/
 .localdevserver/
 deploy-options.json
 
