@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Character_a</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+     NOT(ISBLANK(Email)),
+     FIND(&quot;a&quot;, Email, 5) &gt; 0,
+     FIND(&quot;a&quot;,Email,5)&lt;=12)</errorConditionFormula>
+    <errorDisplayField>Email</errorDisplayField>
+    <errorMessage>The Email field between the 5th character and the 12th character have a</errorMessage>
+</ValidationRule>
