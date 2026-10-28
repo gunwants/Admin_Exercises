@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>US_Phone_Length_Validation</fullName>
+    <fullName>Phone_Length_Validation</fullName>
     <active>true</active>
     <description>Enforces that US Leads with a phone number must have at least 10 characters.</description>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>IF(
+  ISBLANK(Phone),
+  TRUE,
+  AND(
     Country = &quot;United States&quot;,
-    NOT(ISBLANK(Phone)),
     LEN(Phone) &lt; 10
+  )
 )</errorConditionFormula>
+    <errorDisplayField>Phone</errorDisplayField>
     <errorMessage>US Phone numbers must contain at least 10 characters.</errorMessage>
 </ValidationRule>
