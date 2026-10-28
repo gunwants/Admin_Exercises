@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>68.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <customErrors>
+        <name>Error_in_Phone_or_Email</name>
+        <label>Error_in_Phone_or_Email</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>END_ELEMENT_1</targetReference>
+        </connector>
+        <customErrorMessages>
+            <errorMessage>There is error in either Email or Phone Number</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <ends>
+        <name>END_ELEMENT_1</name>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+    </ends>
+    <environments>Default</environments>
+    <interviewLabel>Warning Screen for email and phone {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Warning Screen for email and phone</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Error_in_Phone_or_Email</targetReference>
+        </connector>
+        <filterFormula>OR(
+  ISBLANK({!$Record.Phone}),
+  AND(
+    {!$Record.Country} = &quot;United States&quot;,
+    LEN({!$Record.Phone}) &lt; 10
+  ),
+  ISBLANK({!$Record.Email}),
+  AND(
+    OR(
+      REGEX(LOWER({!$Record.Email}), &quot;.*\\.(games|garden|glass|free|talk)$&quot;),
+      REGEX(LOWER({!$Record.Email}), &quot;^(info@|contact@|career@).*&quot;)
+    ),
+    FIND(&quot;a&quot;, {!$Record.Email}, 5) &gt; 0,
+    FIND(&quot;a&quot;, {!$Record.Email}, 5) &lt;= 12
+  )
+)</filterFormula>
+        <object>Lead</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

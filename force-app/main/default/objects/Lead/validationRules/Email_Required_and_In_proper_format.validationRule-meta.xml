@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_Required_and_In_proper_format</fullName>
+    <active>true</active>
+    <description>email should not end with 
+.games
+.garden
+.glass
+.free
+.talk</description>
+    <errorConditionFormula>IF(
+  ISBLANK(Email),
+  TRUE,
+  AND(
+    OR(
+      REGEX(LOWER(Email), &quot;.*\\.(games|garden|glass|free|talk)$&quot;),
+      REGEX(LOWER(Email), &quot;^(info@|contact@|career@).*&quot;)
+    ),
+    FIND(&quot;a&quot;, Email, 5) &gt; 0,
+    FIND(&quot;a&quot;, Email, 5) &lt;= 12
+  )
+)</errorConditionFormula>
+    <errorDisplayField>Email</errorDisplayField>
+    <errorMessage>Invalid Email Address: Domain extensions (.games, .garden, .glass, .free, .talk) and generic email prefixes (info@, contact@, career@) are not allowed.</errorMessage>
+</ValidationRule>
