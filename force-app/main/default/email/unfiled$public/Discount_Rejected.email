@@ -1,0 +1,1 @@
+Your discount on {!Opportunity.Name} was rejected. Comments: {!ApprovalRequest.Comments}
